@@ -1,4 +1,5 @@
-#Arificial_Intelligent: Sabrina[AI]
+#!/usr/bin/python3.6.0
+#Author: John Melody Me
 import pyttsx
 import speech_recognition as sr
 import pocketsphinx
@@ -6,8 +7,9 @@ import pyaudio
 import random,os
 engine = pyttsx.init()
 def listen():
-    r - sr.Microphone() as source:
-    a = r.listen(source)
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+         a = r.listen(source)
 
     try:
 
