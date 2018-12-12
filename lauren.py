@@ -1,3 +1,4 @@
+#/usr/bin/python3
 from datetime import datetime
 from gtts import gTTS
 import speech_recognition as sr
@@ -40,12 +41,12 @@ def myCommand():
     #engine.runAndWait()
 
 #if statements for executing commands
-def assistant(command):
 
-   # if 'google' in command:
-    #   chrome_path = '/usr/bin/chromium-web-browser'
-    #    url = 'https://www.google.com.mx'
-    #    webbrowser.get(chrome_path).open(url)
+def assistant(command):
+    if 'google' in command:
+        browser_path = '/usr/bin/chromium-browser'
+        url = 'https://www.google.com.mx'
+        webbrowser.get(browser_path).open(url)
         
     if 'Hi' or 'Hello' in command:
         talkToMe('Hello')
@@ -92,5 +93,18 @@ def assistant(command):
         
     if 'shit' in command:
         talkToMe('No swearing.')
+        #Search google for weather forecasting
+    if 'Tell me the weather today.' in command:
+        talkToMe('forecasting.')
+        browser_path = '/usr/bin/chromium-browser'
+        url = 'https://www.google.com/search?client=ubuntu&hs=GnK&ei=j50QXIu8MobwrQGO8YbgCg&q=what+is+todays+weatherlike+%3F&oq=what+is+todays+weatherlike+%3F&gs_l=psy-ab.3..0i22i30l5j0i22i10i30j0i22i30l4.806.1892..2091...0.0..0.102.550.5j1......0....1..gws-wiz.......0i71j0i13.f6nTJ8WTQrI'
+        webbrowser.get(browser_path).open(url)
+    if 'Show me my location.' or 'Where am I ?' in command:
+        talkToMe('locating.')
+        browser_path = '/usr/bin/chromium-browser'
+        url = 'https://www.where-am-i.co/'
+        webbrowser.get(browser_path).open(url)
         
-    
+        exit()
+        #to be continue
+  
