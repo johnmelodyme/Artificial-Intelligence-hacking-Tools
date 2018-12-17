@@ -1,4 +1,6 @@
 
+[![README]
+
 WHAT IS AI?
 From SIRI to self-driving cars, artificial intelligence (AI) is progressing rapidly. While science fiction often portrays AI as robots with human-like characteristics, AI can encompass anything from Google’s search algorithms to IBM’s Watson to autonomous weapons.
 
