@@ -13,13 +13,15 @@ using namespace std;
 
         {
             cout<<"\nHello, "<<a<<"\n";
-            cout<<"\nPlease execute a command: \n"; /*Tmp no command to be execute*/
-            cin>>ch;  
+            cout<<"\nPlease execute a command: \n";
+            cin>>ch;
             }
                 {
                     cout<<"\n Tell me about yourself. \n";
                     cin>>ch;
-                    cout<<"\n Interesting... \n";
+                    cout<<"\n Continue? [y/n] \n";
+                    cin>>ch;
+
                 }
 
 {
