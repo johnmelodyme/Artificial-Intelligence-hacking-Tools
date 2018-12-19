@@ -1,4 +1,5 @@
 #/usr/bin/env python
+#Developed by John Melody Mel
 import bs4
 from urllib2 import urlopen as uReq
 from bs4 import BeautifulSoup as soup
