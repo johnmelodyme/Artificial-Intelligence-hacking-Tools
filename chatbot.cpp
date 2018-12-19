@@ -1,5 +1,5 @@
 /*This is Just a console chatbox*/
-?*Author John Melody*/
+/*Author John Melody*/
 #include<iostream>
 using namespace std;
  main()
