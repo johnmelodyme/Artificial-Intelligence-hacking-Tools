@@ -1,3 +1,6 @@
+/*This a prototype chatbot*/
+/*Developed by John Melody Melissa*/
+
 #include<iostream>
 using namespace std;
  main()
@@ -10,8 +13,8 @@ using namespace std;
 
         {
             cout<<"\nHello, "<<a<<"\n";
-            cout<<"\nPlease execute a command: \n";
-            cin>>ch;
+            cout<<"\nPlease execute a command: \n"; /*Tmp no command to be execute*/
+            cin>>ch;  
             }
                 {
                     cout<<"\n Tell me about yourself. \n";
