@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1545212546 source:/home/sabrina/Documents/Chatbot/main.cpp
+	<iostream>
+
+1545275469 source:/home/sabrina/Documents/Chatbot/keylogger.cpp
+
