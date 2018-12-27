@@ -1,0 +1,151 @@
+<!--
+Authored and Developed by John Melody Melissa
+ //\//\/\/\/\/\/\/\/\\\\//\\\////\\///\\/\
+\//\\\///\//\/\/\/\/\/\/\/\/\/\///\\/\/\/\
+-->
+<!DOCTYPE html>
+    <html>
+        <head>
+			<title>Sabrina</title>
+			<link rel="shortcut icon" type="image/x-icon" href="/home/sabrina/Desktop/Projectsabrina/chatbot/source/img/icon.jpg"/>
+<style>
+body { 
+	color: #c8ff00; font-weight: bold; font-size: 30px; background: #000000;
+	background-image: url("/home/sabrina/Desktop/Projectsabrina/chatbot/source/img/sabrina.jpg"); background-repeat: repeat-y; 
+}
+span { 
+	color: #c8ff00; 
+} 
+::-webkit-input-placeholder { 
+	color: #000000
+}
+#main { 
+	position: fixed; top: 40%; right: 60px; width: 400px; 
+	border: 0px solid #c8ff00; padding: 40px; 
+}
+#main div { 
+	margin: 10px; 
+} 
+#input { 
+	border: 0; background:#ffffff80; padding: 5px; border: 1px solid #c8ff00; 
+}
+.container {
+	position: static;
+  }
+
+  .bottomright {
+	position: absolute;
+	bottom: 8px;
+	right: 16px;
+	font-size: 13px;
+  }
+</style>
+</head>
+<body>
+<div id="main">
+	<div>You:  <span id="user"></span></div>
+	<div>Sabrina: <span id="chatbot"></span></div>
+	<div><input id="input" type="text" placeholder="Type here." autocomplete="off"/></div>
+</div>
+<script type="text/javascript">
+var trigger = [
+	["hi","hey","hello", "sabrina", "witch"],
+	["what can you do?","what can you do","what you do?","what you do"],
+	["who am i","what is my name"],
+	["how are you", "you good?", "how are things?"],
+	["what are you doing", "what is going on"],
+	["how old are you"],
+	["who are you", "are you human", "are you bot", "are you human or bot", "name?", "name"],
+	["who created you", "who made you"],
+	["your name please",  "your name", "may i know your name", "what is your name"],
+	["i love you"],
+	["fuck you"],
+	["happy", "good"],
+	["bad", "bored", "tired"],
+	["help me", "tell me story", "tell me joke"],
+	["nalan", "who is nalan", "simon george nalan"],
+	["ah", "yes", "ok", "okay", "nice", "thanks", "thank you"],
+	["what are john's experiences?"],
+	["who is john melody", "john melody"],
+	["where are you"],
+	["bye", "good bye", "goodbye", "see you later"]
+];
+var reply = [
+	["Hi.","Hey.","Hello, What can I do for you?"],
+	["I can predict your future in either yes or no."],
+	["I might not know your name, but I do know who exactly you are."],
+	["Fine."],
+	["Nothing much", "About to go to sleep", "Summoning."],
+	["I am 1 day young", "I ain't old as you."]l,
+	["I am Sabrina, The witch", "I am the girl you can't get."],
+	["My God......"],
+	["I can't tell you", "Sabrina"],
+	["I love you too", "Me too"],
+	["fuck me! ", "Did you just said fuck me? How ? With your small tic tac?", "Ho! ho! ho! Make me! "],
+	["Have you ever felt bad?", "Glad to hear it"],
+	["Why?", "Why? You shouldn't!", "Try watching TV, Porn or something"],
+	["I will", "What about?"],
+	["According to Wikipedia Nalan started his Porn industries academy since 1982"],
+	["Tell me a story", "Tell me a joke", "Tell me about yourself", "You are welcome"],
+	["John Melody? Manage local and off-shore staff and consultants who support Intel systems. Off-shore staff has allowed better 24/7 support and incident response. Resolved system slow-down issues through network migrations, reconfiguration, integrations, and troubleshooting. Impressive huh? *wink wink*"],
+	["John Melody is a talented amateur programmer and also he  created me."],
+	["I'm either in your heart or your computer, I ain't running no where.", "I'm not telling you to avoid got 'AI-zoned'"],
+	["Bye", "Goodbye", "See you later"]
+];
+var alternative = ["Haha...", "Eh...", "What?", "You are weird and funny.", "Contact my Creator for this help 'Johnmelodyme@gmx.us'"];
+document.querySelector("#input").addEventListener("keypress", function(e){
+	var key = e.which || e.keyCode;
+	if(key === 13){ //Enter button
+		var input = document.getElementById("input").value;
+		document.getElementById("user").innerHTML = input;
+		output(input);
+	}
+});
+function output(input){
+	try{
+		var product = input + "=" + eval(input);
+	} catch(e){
+		var text = (input.toLowerCase()).replace(/[^\w\s\d]/gi, ""); //remove all chars except words, space and 
+		text = text.replace(/ a /g, " ").replace(/i feel /g, "").replace(/whats/g, "what is").replace(/please /g, "").replace(/ please/g, "");
+		if(compare(trigger, reply, text)){
+			var product = compare(trigger, reply, text);
+		} else {
+			var product = alternative[Math.floor(Math.random()*alternative.length)];
+		}
+	}
+	document.getElementById("chatbot").innerHTML = product;
+	speak(product);
+	document.getElementById("input").value = ""; //clear input value
+}
+function compare(arr, array, string){
+	var item;
+	for(var x=0; x<arr.length; x++){
+		for(var y=0; y<array.length; y++){
+			if(arr[x][y] == string){
+				items = array[x];
+				item =  items[Math.floor(Math.random()*items.length)];
+			}
+		}
+	}
+	return item;
+}
+function speak(string){
+	var utterance = new SpeechSynthesisUtterance();
+	utterance.voice = speechSynthesis.getVoices().filter(function(voice){return voice.name == "Victoria";})[0];
+	utterance.text = string;
+	utterance.lang = "en-US";
+	utterance.volume = 1; //0-1 interval
+	utterance.rate = 1;
+	utterance.pitch = 2; //0-2 interval
+	speechSynthesis.speak(utterance);
+}
+</script>
+<!--
+	<div class="container">
+	<div class="bottomright">Say something like:  <br> 
+		"hello"<br> "who are you",<br>"name?" <br>"bored"<br>" who is john melody", <br> "what you doing"<br> 'where are you"<br> </br>
+		<i>Please do use 'small cap' for executing command</i></div>
+  </div>
+-->
+</body>
+</html>
