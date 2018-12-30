@@ -1,0 +1,64 @@
+<!--
+    Copyright © 2018-2019 John Melody All Rights Reserved
+
+              _       _             __  __      _           _       
+            | |     | |           |  \/  |    | |         | |      
+            | | ___ | |__  _ __   | \  / | ___| | ___   __| |_   _ 
+        _   | |/ _ \| '_ \| '_ \  | |\/| |/ _ \ |/ _ \ / _` | | | |
+       | |__| | (_) | | | | | | | | |  | |  __/ | (_) | (_| | |_| |     v1.1.2  
+        \____/ \___/|_| |_|_| |_| |_|  |_|\___|_|\___/ \__,_|\__, |
+                                                              __/ |
+                                                             |___/
+    -->
+    <html>
+        <title>Sabrina IDE</title>
+        <link rel="shortcut icon" type="image/x-icon" href="https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_960_720.png">
+        <script>
+                function refresh(){
+                    var textContent = document.getElementById('editor-textarea').value;
+                    document.getElementById('viewer').srcdoc = textContent;
+            }
+        </script>
+        <style>
+            *{
+                padding: 0;
+                margin: 0;
+            }
+            .main{
+                background:  #14181a;
+                width: 100%;
+                height:  100%;
+                display:  inline-flex;
+            }
+            #editor-textarea{
+                background:  #14181a;
+                text-emphasis-color: green;
+                text-decoration-color:  green;
+                color:rgb(0, 255, 0);
+                width: 100%;
+                height: 95%;
+                margin: 10;
+            }
+            #viewer{
+                background:  white;
+                border: none;
+                width: 100%;
+                height: 95%;
+                margin: 10;
+                border: 1px solid #334499;
+            }
+            #button{
+                background: #14181a;
+                color:  green;
+            }
+        </style>
+        <head>
+            <body>
+                <div class="main">
+                    <textarea id="editor-textarea"></textarea>
+                    <iframe id="viewer"></iframe>
+                    <input type="button" value="Run" onclick="refresh()"/>
+                </div>
+            </body>
+        </head>
+    </html>
