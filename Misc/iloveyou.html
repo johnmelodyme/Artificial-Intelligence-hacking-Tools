@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>I Love You</title>
+        <link rel="stylesheet" href="index.css">
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <style>
+            html, body {
+                margin: 5px;
+                padding: 0;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div id="app">
+            {{ message }}
+        </div>
+        
+        <script>
+            window.alert("John Melody: " + "I Love You.");
+            var app = new Vue({ 
+                el: '#app',
+                data: {
+                    message: 'I love you!'
+                }
+            });            
+        </script>
+    </body>
+</html>
