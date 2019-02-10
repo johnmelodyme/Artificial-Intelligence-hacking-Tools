@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 "> 
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+             
+     <title>🐤Flappy Bird [ 🎮 Game ]</title>
+     
+    <link href="https://fonts.googleapis.com/css?family=Sarabun|Aleo" rel="stylesheet">
+    
+    </head>
+    <body>
+        <style>
+            
+@font-face {
+    font-family:'flappy';
+    src:url(https://dl.dropbox.com/s/tnnw5qs20n8s5uy/FlappyBirdy.ttf?dl=0);
+    font-weight:bold;
+}
+
+body {
+    margin:0; padding:0px;
+    font-family: 'Sarabun', sans-serif;
+    user-select:none;   
+    }
+
+/*loader starts here */
+#container{
+    display:block;
+    position:absolute ;
+    height:100%;  width:100%;
+    color:white;
+    background-image:-webkit-linear-gradient(right,#06beb6,#48b1bf);
+    z-index:10;    
+    
+}
+
+#loader,#load {
+    position:absolute ;
+    height:40px;  width:40px;
+    top:0; bottom:100px;
+    left:0; right:0;
+    margin:auto;
+    background-color:transparent;  
+       
+}
+ #loader:before,#loader:after{
+        content:"";
+        position:absolute ;
+        height:40px;  width:40px;
+        border:8px solid rgba(255,255,255,0.5);
+        border-radius:10px;        
+    }
+#loader:before {
+    animation:animate1 2s linear infinite;
+}
+#loader:after {
+    animation:animate2 2s linear infinite;
+}
+#load {
+    top:55%; position:absolute ;
+    font-size:20px;
+    font-family: 'Aleo', serif;
+}
+
+
+@keyframes animate1 {
+    100%{
+        transform:rotate(180deg) skew(360deg);
+    }
+}
+@keyframes animate2 {
+    100%{
+        transform:rotate(-180deg) skew(-360deg);
+    }
+}
+/* Loader ends here */
+
+
+
+#bgImage
+{   height:99%;   width:99%;
+    z-index:-1; position:absolute; background-image:url("https://dl.dropbox.com/s/t5t3g4u8os1ivfi/bg.png?dl=0");    
+    filter:blur(5px);
+}
+
+#canvas {
+    position:absolute ;
+    top:0; left:0; right:0; bottom:0;
+    margin:auto;
+    background-color:transparent;
+    box-shadow:0 1px 5px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.3);
+    z-index:0;
+}
+#mid {
+    position:absolute ;
+    top:0; left:0; right:0; bottom:0;
+    margin:auto; z-index:1;
+}
+#images
+{
+    display:none;
+}
+#result,button
+{
+    position:relative ;
+    z-index:1;    top:390px;
+    color:black;
+    font-size:48px;
+    font-family:'flappy';
+}
+
+#result {
+    top:100px;
+    font-size:72px;  color:tomato;
+    text-shadow:0px 2px tomato;
+}
+#btn , #btnStart{
+    outline:none; border:none;
+    top:150px; 
+    background-color:#fff;
+    color:teal;
+    text-shadow:0px 2px teal;
+    padding:10px 20px 5px 20px;
+    border:3px dashed #262626;
+    border-radius:15px;
+    height:63px;
+}
+
+#playSound,#sound,#nosound
+{
+    display:block ;
+    position:absolute;
+    top:0; z-index:1;
+    margin:5px; margin-left:10px;
+}
+#sound,#nosound {
+    top:0; margin-left:0;
+    font-size:22px;
+}
+#sound {
+    visibility:hidden ;    
+}
+#nosound {
+    visibility:visible;
+    margin-left:10px;
+}
+#info {
+    margin-left:34px;
+    margin-top:6px;
+    font-family: 'Sarabun', sans-serif;
+}
+</style>
+    <script>
+            // Created by Madhav
+
+window.onload = function () {
+    document.getElementById("container").style.visibility='hidden';    document.getElementById("mid").style.visibility='hidden';
+    
+    //sounds
+music = document.getElementById("music");
+scoreM = document.getElementById("scoreM");
+lose = document.getElementById("lose");
+}
+
+function btnStart() {
+    document.getElementById("btnStart").style.visibility='hidden';  
+    init();
+}
+
+ //some constants
+    var music,scoreM,lose;
+    var count = false ; var num =0;
+
+function init() {
+   
+    //game over
+ document.getElementById("mid").style.visibility='hidden';
+
+    
+    //some canvas work
+    var canvas = document.getElementById("canvas");
+    var h = canvas.height = 430;
+    var w = canvas.width = 288;
+    var ctx = canvas.getContext('2d');
+    
+    //images
+    var images = document.getElementsByTagName("img");
+    var bg = new Image();
+    var fg = new Image();
+    var bird = new Image();
+    var pN = new Image();
+    var pS = new Image();
+    //images src
+    bg.src = images[0].src ;    
+    bird.src=images[1].src ;
+    pN.src=images[2].src ;
+    pS.src=images[3].src ;
+    fg.src=images[4].src ;
+
+var g = 1.65;  var run ;
+var gap = 100; 
+var score = 0,level =0 ;
+
+
+//some components
+var pipe = []    ;
+pipe[0] = {
+    x : w - pN.width - 10,
+    y : -35,
+}
+var bX = 25; var bY = h/2;
+
+//eventListner for clicks
+
+        
+//touchmove eventListener controls
+function handleTouch(e){
+    e.preventDefault();
+    if(count){    music.volume=1;    }
+    else{  music.volume=0;     }
+       g=-g-2; 
+}
+        
+//touchmove eventListener controls
+canvas.addEventListener("touchstart", handleTouch);
+
+canvas.addEventListener("touchend", handleTouch);
+    
+canvas.addEventListener("mousedown", handleTouch);
+
+canvas.addEventListener("mouseup", handleTouch);     
+
+
+//to draw text i.e points
+function drawText(text,x,y)  {
+
+    ctx.fillStyle = "#000";
+    ctx.font = "27px Aleo";
+    ctx.fillText(text, x, y);
+}   
+function drawText2(text,x,y)  {
+
+    ctx.fillStyle = "#000";
+    ctx.font = "50px flappy";
+    ctx.fillText(text, x, y);
+}     
+
+//actual draw function
+function draw() {
+    ctx.drawImage(bg,0,-80) ;
+  for(var i = 0; i<pipe.length ; i++){
+  ctx.drawImage(pN,pipe[i].x,pipe[i].y);
+ctx.drawImage(pS,pipe[i].x,pN.height+pipe[i].y+gap);
+  
+  pipe[i].x-=1; 
+  
+  if(pipe[i].x==150)
+  {   
+      pipe[pipe.length] = {
+          x:w + 5,
+          y:-Math.floor(Math.random()*(pN.height-40)),
+      };
+  }
+  //score system
+  if(pipe[i].x + pN.width==bX)
+  {
+      score++; 
+      if(count) {
+          scoreM.volume = 1;
+      scoreM.play();
+      } 
+  }
+  if(pipe[i].x + pN.width==-150){
+      pipe.shift();
+  }
+  
+  
+  
+//condition to lose 
+ if(bX+33>pipe[i].x&&bX+10<pipe[i].x+pN.width&&bY<pN.height+pipe[i].y||bX+33>pipe[i].x&&bX+10<pipe[i].x+pN.width&&bY>pN.height+pipe[i].y+gap-27||bY>h+13-fg.height||bY<-5)
+  {
+      cancelAnimationFrame(run);
+      if(count) {
+          music.volume=0;
+      lose.volume = 1;
+      lose.play();
+      }
+      
+document.getElementById("mid").style.visibility='visible';          
+ctx.drawImage(fg,0,h-fg.height+40);
+ctx.drawImage(bird,bX,bY)  ;
+
+//level and score update
+drawText2("Level : ",160,h-20); 
+drawText(level + 1,260,h-24);    
+     
+drawText2("Score : ",10,h-22); 
+drawText(score,110,h-24);  
+  
+return 0;
+  }    
+    }
+     //gravity to fall
+       bY+=g;  
+       
+  //to increase difficulty by decreasing the gap
+  level = Math.floor(score/7); 
+  if(gap>=60) {
+   gap = 100 - level*5;
+  }
+  
+  ctx.drawImage(bird,bX,bY)  ;
+      
+  ctx.drawImage(fg,0,h-fg.height+40);
+  
+  //level and score update
+drawText2("Level : ",160,h-20); 
+drawText(level + 1,260,h-24);    
+     
+drawText2("Score : ",10,h-22); 
+drawText(score,110,h-24); 
+   
+  run = requestAnimationFrame(draw);
+  
+}
+     
+  
+draw() ;
+}
+
+function playAgain() {
+     init();
+}
+
+function playSound() {
+    count = true ;
+    if(num==0)
+    {   num++;
+    music.play();
+    scoreM.play();     lose.play(); 
+        }
+scoreM.volume=0;   lose.volume=0;  
+music.volume =0; 
+document.getElementById("nosound").style.visibility='hidden'; 
+document.getElementById("sound").style.visibility='visible';  
+document.getElementById("info").innerText='Click to stop music .';                  
+}
+
+function noPlaySound () {
+     count = false ;
+document.getElementById("sound").style.visibility='hidden'; 
+document.getElementById("nosound").style.visibility='visible';   
+document.getElementById("info").innerText='Click to play music .';      
+}
+    </script>
+<!-- Loader starts -->
+   <div id="container" >
+       <div id="loader"></div>
+       <br><br />
+       <div id="load">Loading...</div>
+   </div>
+    <!-- Loader ends -->
+
+    <div id="images">
+     <img src='https://dl.dropbox.com/s/t5t3g4u8os1ivfi/bg.png?dl=0'   alt="bg">
+     <img src="https://dl.dropbox.com/s/2n4gpj8sgw77sov/bird2.png?dl=0"   alt="bird">
+     <img src="https://dl-web.dropbox.com/s/oz10krasd5hyyy7/pipeNorth.png?dl=0"   alt="pN">
+     <img src="https://dl.dropbox.com/s/zsy9dbwkv97zkf1/pipeSouth.png?dl=0"   alt="pS">
+     <img src="https://dl.dropbox.com/s/ix86pwj7hpaqd89/fg.png?dl=0" alt="fg">
+      
+    </div>
+    
+    <div id="bgImage" ></div>
+        <canvas id="canvas"></canvas>
+ <center><button onclick="btnStart()" id="btnStart">START</button></center>  
+  <div id="mid">
+      <center><div id="result">Game Over</div></center> 
+  <center><button onclick="playAgain()" id="btn">Play Again</button></center>  
+  </div>
+  
+  <div id="playSound">
+     <i id='sound' onclick="noPlaySound()" class='fas fa-volume-up'></i> 
+     <i id="nosound" onclick="playSound()" class="fas fa-volume-off"></i> <div id="info">Click to play music .</div>
+  </div>
+  
+   <!--  To get the clicking sound -->      
+<audio id="music" autoplay loop>
+    <source src="https://dl-web.dropbox.com/s/qs1fc18fbxujid0/Flappy%20Bird%20Theme%20Song%201.mp3?dl=0" 
+    type = "audio/mp3">
+
+</audio> 
+
+<audio id="scoreM" autoplay>
+    <source src="https://dl-web.dropbox.com/s/hnt77i48coqa4hw/score%20Sound%20.mp3?dl=0" 
+    type = "audio/mp3">
+
+</audio> 
+<audio id="lose" autoplay>
+    <source src="https://dl-web.dropbox.com/s/fzcdb1jac6i83j4/Lose%20sound%20.mp3?dl=0" 
+    type = "audio/mp3">
+
+</audio> 
+
+    
+      </body>
+</html>
